@@ -99,9 +99,9 @@ public class Reflector {
 ```
 Here's a breakdown of the steps within the reflect method:
 
--> The current signal is used as an index to find its position in the left array.
--> The character at the same position in the right array is identified.
--> The identified character serves as the reflected signal.
+1. The current signal is used as an index to find its position in the left array.
+2. The character at the same position in the right array is identified.
+3. The identified character serves as the reflected signal.
 
 ## lets begin the encryption/encipher
 
