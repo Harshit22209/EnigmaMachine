@@ -25,12 +25,23 @@ How code Works:
 1. To encrypt a data we first get the text to be encrypt than few parameters like which 3 rotors to be used, rotor rings, rotor key, And few pair of characters for plugboard. The use of all these thing will get cleared as we move forward.
    
 2. On the basis of user data we create 3 instances of rotors,a plugboard and a reflector.
-  ->In rotor ,we have 2 sequence of character ,left and right.In left Sequence we have stored the normal sequence A-Z, 
-    for right we have special sequences .
-  ->In plugboard again there are 2 sequences left and right,In left we have swapped the sequence that was passed initial
+   ```Java
+   PlugBoard pb=new PlugBoard(input,pairs);
+   Rotor rotor1=new Rotor(input,r1,n1);
+   Rotor rotor2=new Rotor(input,r2,n2);
+   Rotor rotor3=new Rotor(input,r3,n3);
+   Reflector reflector=new Reflector(input,wiring);
+   ```
+   1. In rotor ,we have 2 sequence of character ,left and right.In left Sequence we have stored the normal sequence A-Z, 
+     for right we have special sequences .
+   2. In plugboard again there are 2 sequences left and right,In left we have swapped the sequence that was passed initial
     in the standard sequence i.e A-Z.In right Part we have Standard sequence only,no changes.
-  ->In Reflector again we have two sequence left and right. left-> Standard Sequence, right ->some special sequence.
-**Now the encryption start!!!**
+   3. In Reflector again we have two sequence left and right. left-> Standard Sequence, right ->some special sequence.
+
+Before delving into Encryption, first Understand a few methods of each class
+
+
+```Java
 public class Rotor {
     // Other properties and methods...
 
@@ -43,7 +54,58 @@ public class Rotor {
     }
 }
 
-4. We now start encrypting each character from the string one by one.
+```
+'next' Method:
+-> The next method takes the current signal as input and finds the corresponding output by looking up the position of the signal in the left array and returning the character at the same position in the right array.
+-> This simulates the forward movement of the electrical signal through the rotor's internal wiring.
+
+'back' Method:
+-> The back method does the opposite. It takes the current signal as input and finds the corresponding output by looking up the position of the signal in the right array and returning the character at the same position in the left array.
+-> This simulates the backward movement of the electrical signal through the rotor, as it returns from the reflector back through the rotors.
+```Java
+public class PlugBoard {
+    // Other properties and methods...
+
+    int next(int signal){
+        return Helper.find(left, right[signal]);
+    }
+
+    int back(int signal){
+        return Helper.find(right, left[signal]);
+    }
+}
+
+```
+In Plugboard, Next and Back method work similar to Rotor
+
+
+```Java
+public class Reflector {
+    char[] left;
+    char[] right;
+
+    // Other properties and methods...
+
+    Reflector(String input, String wiring){
+        this.left = input.toCharArray();
+        this.right = wiring.toCharArray();
+    }
+
+    int reflect(int signal){
+        // Reflect the signal using the reflector wiring
+        return Helper.find(left, right[signal]);
+    }
+}
+```
+Here's a breakdown of the steps within the reflect method:
+
+-> The current signal is used as an index to find its position in the left array.
+-> The character at the same position in the right array is identified.
+-> The identified character serves as the reflected signal.
+
+## lets begin the encryption/encipher
+
+4. We now start encrypting each character from the message one by one.
 
 a. The electrical signal would pass through the plugboard, then through the rotors.
 
@@ -51,7 +113,22 @@ b. After passing through the rotors, the signal would hit the reflector and then
 
 c. The machine's settings ensured that each keypress resulted in a different encrypted letter.
 
-d. The encrypted letter would be transmitted and then decrypted on the receiving end using the same initial settings.
+```Java
+for (char c : msg.toCharArray()) {
+   String curr = res;
+   int idx = input.indexOf(c + "");
+   idx = pb.next(idx);
+   idx = rotor3.next(idx);
+   idx = rotor2.next(idx);
+   idx = rotor1.next(idx);
+   idx = reflector.reflect(idx);
+   idx = rotor1.back(idx);
+   idx = rotor2.back(idx);
+   idx = rotor3.back(idx);
+   idx = pb.back(idx);
+   res+=input.charAt(idx);
+}
+```
  
 
 
