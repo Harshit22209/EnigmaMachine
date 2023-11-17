@@ -105,7 +105,7 @@ Here's a breakdown of the steps within the reflect method:
 
 ## lets begin the encryption/encipher
 
-4. We now start encrypting each character from the message one by one.
+We now start encrypting each character from the message one by one.
 
 a. The electrical signal would pass through the plugboard, then through the rotors.
 
