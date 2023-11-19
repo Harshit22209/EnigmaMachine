@@ -105,7 +105,7 @@ public class EnigmaController {
         final int[] outIdx = {0};
         // Define a KeyFrame that updates the text
         KeyFrame keyFrame = new KeyFrame(
-                Duration.millis(100), // Duration between keyframes
+                Duration.millis(150), // Duration between keyframes
                 event -> {
 
 
