@@ -22,6 +22,7 @@ Rotor
 on terminal in folder EnigmaMachine run this command " mvn clean javafx:run "
 
 You will see something like this
+
 ![image](https://github.com/Harshit22209/EnigmaMachine/assets/119040511/0c91dcc6-5714-41ce-a2af-26cf9b8982c8)
 
 #### How code Works:
